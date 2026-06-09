@@ -33,7 +33,7 @@
     "postalCode": "560035",
     "addressCountry": "IN"
   },
-  "openingHours": "Mo-Su 10:00-14:00",
+  "openingHours": ["Mo-Su 10:00-14:00", "Mo-Su 16:30-20:30"],
   "priceRange": "₹₹",
   "founder": { "@type": "Person", "name": "Dr. Supriya Bhandage" }
 }
@@ -492,7 +492,7 @@ footer{background-color:var(--dark);background-image:url("data:image/svg+xml,%3C
   .about-grid{gap:38px}
   .portrait{max-width:290px}
   .portrait .monogram{font-size:5rem}
-  .badge-float{top:14px;right:6px;padding:11px 14px}
+  .badge-float{top:auto;bottom:124px;right:6px;left:auto;padding:11px 14px}
   .badge-float .bnum{font-size:1.55rem}
   .ida-badge{left:6px;bottom:-14px;padding:10px 14px;font-size:.7rem}
   .about .credentials span{font-size:.72rem;padding:6px 12px}
@@ -534,11 +534,13 @@ footer{background-color:var(--dark);background-image:url("data:image/svg+xml,%3C
   .gal-grid{grid-auto-rows:128px}
   .hero h1{font-size:2rem}
 }
-.logo{padding:0;border-radius:14px;transition:background .4s var(--ease),padding .4s var(--ease),box-shadow .4s var(--ease)}
-.logo img{height:72px;width:auto;display:block}
-.nav.scrolled .logo{background:#002B3B;padding:8px 16px;box-shadow:0 8px 22px -10px rgba(0,43,59,.55)}
-.nav.scrolled .logo img{height:50px}
-@media(max-width:680px){.logo img{height:54px}.nav.scrolled .logo img{height:40px}.nav.scrolled .logo{padding:6px 12px}}
+.logo{position:relative;padding:0;display:inline-flex}
+.logo .logo-img{height:72px;width:auto;display:block;transition:opacity .35s var(--ease),height .4s var(--ease)}
+.logo .logo-dark{position:absolute;top:0;left:0;opacity:0}
+.nav.scrolled .logo .logo-img{height:60px}
+.nav.scrolled .logo .logo-light{opacity:0}
+.nav.scrolled .logo .logo-dark{opacity:1}
+@media(max-width:680px){.logo .logo-img{height:56px}.nav.scrolled .logo .logo-img{height:50px}}
 
 /* ===== DENTAL TOOTH CURSOR ===== */
 html,body{cursor:url('cursor-tooth.png') 12 2, auto}
@@ -560,7 +562,8 @@ input[type=date],input[type=time]{cursor:url('cursor-tooth-pointer.png') 13 2, p
 <header class="nav" id="nav">
   <div class="container nav-inner">
     <a href="#home" class="logo">
-      <img src="logo-supra.png" alt="Supra Dental Care | A Holistic Healing Centre">
+      <img class="logo-img logo-light" src="logo-supra.png" alt="Supra Dental Care | A Holistic Healing Centre">
+      <img class="logo-img logo-dark" src="logo-supra-dark.png" alt="" aria-hidden="true">
     </a>
     <nav class="nav-links">
       <a href="#about">About</a>
@@ -795,7 +798,7 @@ input[type=date],input[type=time]{cursor:url('cursor-tooth-pointer.png') 13 2, p
         </div>
         <div class="c-card">
           <div class="cico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-          <div><h4>Clinic Hours</h4><p>Open Daily · 10:00 AM to 2:00 PM</p></div>
+          <div><h4>Clinic Hours</h4><p>Open Daily<br>10:00 AM to 2:00 PM<br>4:30 PM to 8:30 PM</p></div>
         </div>
         <div class="contact-btns">
           <a class="btn btn-primary" href="tel:+917349057653"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call Clinic</a>
@@ -848,6 +851,7 @@ input[type=date],input[type=time]{cursor:url('cursor-tooth-pointer.png') 13 2, p
         <h5>Clinic Hours</h5>
         <ul class="foot-hours">
           <li><span>Mon to Sun</span><span style="color:#fff">10:00 AM to 2:00 PM</span></li>
+          <li><span>&nbsp;</span><span style="color:#fff">4:30 PM to 8:30 PM</span></li>
           <li><span>Address</span></li>
           <li><span style="color:rgba(255,255,255,.7)">R1, Outside Owners Court, West Layout, above Just Bake, Kasavanahalli, Bengaluru, Karnataka 560035</span></li>
           <li><span>Phone</span></li>
@@ -1121,14 +1125,16 @@ const elName=document.getElementById('bmName'),elPhone=document.getElementById('
   opts+='<option value="Not sure / General enquiry">Not sure / General enquiry</option>';
   elTreat.innerHTML=opts;
 })();
-// populate time slots (10:00 AM to 2:00 PM, 30-min)
+// populate time slots (10:00 AM to 2:00 PM & 4:30 PM to 8:30 PM, 30-min)
 (function(){
+  function slot(m){let h=Math.floor(m/60),mm2=m%60,ap=h>=12?'PM':'AM',h12=((h+11)%12)+1;
+    return h12+':'+(mm2===0?'00':'30')+' '+ap;}
   let opts='<option value="">I\u2019m flexible</option>';
-  for(let m=10*60;m<=14*60;m+=30){
-    let h=Math.floor(m/60),mm2=m%60,ap=h>=12?'PM':'AM',h12=((h+11)%12)+1;
-    let lbl=h12+':'+(mm2===0?'00':'30')+' '+ap;
-    opts+=`<option value="${lbl}">${lbl}</option>`;
-  }
+  opts+='<optgroup label="Morning Session">';
+  for(let m=10*60;m<=14*60;m+=30){let l=slot(m);opts+=`<option value="${l}">${l}</option>`;}
+  opts+='</optgroup><optgroup label="Evening Session">';
+  for(let m=16*60+30;m<=20*60+30;m+=30){let l=slot(m);opts+=`<option value="${l}">${l}</option>`;}
+  opts+='</optgroup>';
   elTime.innerHTML=opts;
 })();
 // date min = today
