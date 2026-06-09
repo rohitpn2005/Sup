@@ -1148,6 +1148,7 @@ function prettyDate(v){
 }
 function clearErrors(){['fName','fPhone','fTreat'].forEach(id=>document.getElementById(id).classList.remove('invalid'));}
 
+let bookHistoryPushed=false;
 function openBooking(treatment, notes){
   clearErrors();
   if(treatment && [...elTreat.options].some(o=>o.value===treatment)){elTreat.value=treatment;}
@@ -1156,8 +1157,19 @@ function openBooking(treatment, notes){
   modal.classList.add('open');modal.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   setTimeout(()=>elName.focus(),250);
+  // add a history entry so the device/browser back button closes the popup
+  if(!bookHistoryPushed){bookHistoryPushed=true;try{history.pushState({bookModal:true},'');}catch(e){}}
 }
-function closeBooking(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+function closeBookingUI(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+function closeBooking(){
+  closeBookingUI();
+  // remove the history entry we added (skips if it was already popped by a back press)
+  if(bookHistoryPushed){bookHistoryPushed=false;try{history.back();}catch(e){}}
+}
+// back button (phone gesture / browser) -> just close, don't leave the site
+window.addEventListener('popstate',function(){
+  if(modal.classList.contains('open')){bookHistoryPushed=false;closeBookingUI();}
+});
 
 document.getElementById('bmClose').onclick=closeBooking;
 modal.addEventListener('click',e=>{if(e.target===modal)closeBooking();});
