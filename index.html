@@ -580,19 +580,23 @@ input[type=date],input[type=time]{cursor:url('cursor-tooth-pointer.png') 13 2, p
 .ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .ba-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
 .ba-card:hover{transform:translateY(-7px)}
-.ba-imgs{display:grid;grid-template-columns:1fr 1fr;position:relative}
-.ba-imgs::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);z-index:3}
-.ba-half{aspect-ratio:1/1;position:relative;display:grid;place-items:center;overflow:hidden}
-.ba-half img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ba-before{background:linear-gradient(160deg,#9eb0b6,#6d8186)}
-.ba-after{background:linear-gradient(160deg,#3AB8EA,#0B6E91)}
-.ba-ph{position:relative;display:grid;place-items:center}
-.ba-ph svg{width:52px;height:52px}
-.ba-before .ba-ph svg{color:rgba(255,255,255,.72)}
-.ba-after .ba-ph svg{color:#fff}
-.ba-spark{position:absolute;top:-10px;right:-16px;color:#C5E86C;font-size:1.1rem;line-height:1}
-.ba-tag{position:absolute;top:10px;left:10px;z-index:4;font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,43,59,.5);backdrop-filter:blur(4px);padding:5px 10px;border-radius:30px}
-.ba-tag.after{left:auto;right:10px;background:rgba(11,110,145,.55)}
+.ba-slider{position:relative;aspect-ratio:3/4;overflow:hidden;touch-action:none;cursor:ew-resize;user-select:none;-webkit-user-select:none}
+.ba-layer{position:absolute;inset:0}
+.ba-layer img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.ba-before{clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+.ba-ph{position:absolute;inset:0;display:grid;place-items:center}
+.ba-ph svg{width:54px;height:54px}
+.ph-before{background:linear-gradient(160deg,#9eb0b6,#6d8186)}
+.ph-before svg{color:rgba(255,255,255,.72)}
+.ph-after{background:linear-gradient(160deg,#3AB8EA,#0B6E91)}
+.ph-after svg{color:#fff}
+.ba-spark{position:absolute;top:calc(50% - 46px);left:calc(50% + 20px);color:#C5E86C;font-size:1.1rem;line-height:1}
+.ba-tag{position:absolute;top:10px;z-index:5;font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,43,59,.55);backdrop-filter:blur(4px);padding:5px 10px;border-radius:30px;pointer-events:none}
+.ba-tag-b{left:10px}
+.ba-tag-a{right:10px;background:rgba(11,110,145,.62)}
+.ba-divider{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;background:#fff;transform:translateX(-50%);z-index:6;pointer-events:none;box-shadow:0 0 8px rgba(0,43,59,.25)}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;color:var(--primary)}
+.ba-handle svg{width:20px;height:20px}
 .ba-cap{padding:15px 18px;font-family:'Inter',sans-serif;font-weight:600;font-size:1.02rem;color:var(--dark);text-align:center}
 .ba-note{margin-top:20px;text-align:center;font-size:.82rem;color:rgba(255,255,255,.6)}
 
@@ -767,30 +771,39 @@ input[type=date],input[type=time]{cursor:url('cursor-tooth-pointer.png') 13 2, p
       <p>A glimpse of the change thoughtful dental care can make for your smile.</p>
     </div>
     <div class="ba-grid reveal">
-      <!-- TO ADD A REAL CASE (with patient consent): replace each .ba-ph block with <img src="before.jpg" alt="..."> / <img src="after.jpg" alt="..."> -->
+      <!-- TO ADD MORE REAL CASES (with patient consent): copy a card and set the two <img> sources -->
       <figure class="ba-card">
-        <div class="ba-imgs">
-          <div class="ba-half ba-before"><span class="ba-tag">Before</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div></div>
-          <div class="ba-half ba-after"><span class="ba-tag after">After</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg><b class="ba-spark">✦</b></div></div>
+        <div class="ba-slider" style="--pos:55%">
+          <div class="ba-layer ba-after"><img src="case-after.jpg" alt="After: straight, brighter smile"></div>
+          <div class="ba-layer ba-before"><img src="case-before.jpg" alt="Before: crooked, discoloured teeth"></div>
+          <span class="ba-tag ba-tag-b">Before</span>
+          <span class="ba-tag ba-tag-a">After</span>
+          <div class="ba-divider"><span class="ba-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 7 4 12 9 17"/><polyline points="15 7 20 12 15 17"/></svg></span></div>
         </div>
-        <figcaption class="ba-cap">Veneers &amp; Laminates</figcaption>
+        <figcaption class="ba-cap">Veneers &amp; Smile Makeover</figcaption>
       </figure>
       <figure class="ba-card">
-        <div class="ba-imgs">
-          <div class="ba-half ba-before"><span class="ba-tag">Before</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C8 3 5 6 5 11c0 5 2 8 3.5 10 .6.8 1.8.6 2-.4L12 14l1.5 6.6c.2 1 1.4 1.2 2 .4C17 19 19 16 19 11c0-5-3-8-7-8z"/></svg></div></div>
-          <div class="ba-half ba-after"><span class="ba-tag after">After</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C8 3 5 6 5 11c0 5 2 8 3.5 10 .6.8 1.8.6 2-.4L12 14l1.5 6.6c.2 1 1.4 1.2 2 .4C17 19 19 16 19 11c0-5-3-8-7-8z"/></svg><b class="ba-spark">✦</b></div></div>
+        <div class="ba-slider" style="--pos:55%">
+          <div class="ba-layer ba-after"><div class="ba-ph ph-after"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C8 3 5 6 5 11c0 5 2 8 3.5 10 .6.8 1.8.6 2-.4L12 14l1.5 6.6c.2 1 1.4 1.2 2 .4C17 19 19 16 19 11c0-5-3-8-7-8z"/></svg><b class="ba-spark">✦</b></div></div>
+          <div class="ba-layer ba-before"><div class="ba-ph ph-before"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3C8 3 5 6 5 11c0 5 2 8 3.5 10 .6.8 1.8.6 2-.4L12 14l1.5 6.6c.2 1 1.4 1.2 2 .4C17 19 19 16 19 11c0-5-3-8-7-8z"/></svg></div></div>
+          <span class="ba-tag ba-tag-b">Before</span>
+          <span class="ba-tag ba-tag-a">After</span>
+          <div class="ba-divider"><span class="ba-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 7 4 12 9 17"/><polyline points="15 7 20 12 15 17"/></svg></span></div>
         </div>
         <figcaption class="ba-cap">Dental Implants</figcaption>
       </figure>
       <figure class="ba-card">
-        <div class="ba-imgs">
-          <div class="ba-half ba-before"><span class="ba-tag">Before</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div></div>
-          <div class="ba-half ba-after"><span class="ba-tag after">After</span><div class="ba-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg><b class="ba-spark">✦</b></div></div>
+        <div class="ba-slider" style="--pos:55%">
+          <div class="ba-layer ba-after"><div class="ba-ph ph-after"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg><b class="ba-spark">✦</b></div></div>
+          <div class="ba-layer ba-before"><div class="ba-ph ph-before"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div></div>
+          <span class="ba-tag ba-tag-b">Before</span>
+          <span class="ba-tag ba-tag-a">After</span>
+          <div class="ba-divider"><span class="ba-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 7 4 12 9 17"/><polyline points="15 7 20 12 15 17"/></svg></span></div>
         </div>
-        <figcaption class="ba-cap">Smile Makeover</figcaption>
+        <figcaption class="ba-cap">Teeth Straightening</figcaption>
       </figure>
     </div>
-    <p class="ba-note">Sample placeholders shown. Actual before-and-after photos are added only with each patient's consent.</p>
+    <p class="ba-note">Drag the slider to compare. Patient photos shown with consent; the other cards are samples you can replace with your own cases.</p>
   </div>
 </section>
 
@@ -1128,6 +1141,22 @@ document.querySelectorAll('.faq-q').forEach(q=>{
     document.querySelectorAll('.faq-item.open').forEach(o=>o.classList.remove('open'));
     if(!open) item.classList.add('open');
   });
+});
+
+/* BEFORE / AFTER SLIDERS */
+document.querySelectorAll('.ba-slider').forEach(function(sl){
+  let drag=false;
+  function setPos(clientX){
+    const r=sl.getBoundingClientRect();
+    let p=((clientX-r.left)/r.width)*100;
+    p=Math.max(0,Math.min(100,p));
+    sl.style.setProperty('--pos',p+'%');
+  }
+  sl.addEventListener('pointerdown',function(e){drag=true;try{sl.setPointerCapture(e.pointerId);}catch(_){}{ }setPos(e.clientX);});
+  sl.addEventListener('pointermove',function(e){if(drag)setPos(e.clientX);});
+  sl.addEventListener('pointerup',function(){drag=false;});
+  sl.addEventListener('pointercancel',function(){drag=false;});
+  sl.addEventListener('pointerleave',function(){drag=false;});
 });
 
 /* TESTIMONIAL CAROUSEL */
